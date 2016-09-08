@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <title>Title</title>
+</head>
+
+<body bgcolor="white">
+<font face="lucida console" color="a939ff">
+    <input type="text" id="edit"><span>请输入内容</span><br>
+    <input type="button" value="showToast" onclick="testClick()">
+    <input type="button" value="getLocalImage" onclick="testClick2()">
+    <input type="button" value="alert" onclick="testClick3()">
+    <div id="text">wait</div>
+    <img src="" id="img"/>
+</font>
+</body>
+<script type="text/javascript" src="js/SimpleJsBridge.js"></script>
+<script>
+    function testClick() {
+        var string = document.getElementById("edit").value;
+        var content = {
+            type: 1,
+            content: string
+        };
+        document.getElementById("text").innerHTML = "showToast...";
+        SimpleJsBridge._showToast(content
+                , function (data) {
+                    document.getElementById("text").innerHTML = "调用natvie showToast:" + data;
+                }
+                , function (err) {
+                    document.getElementById("text").innerHTML = "调用natvie showToast:" + err;
+                })
+    }
+
+    function testClick2(){
+        var content = {
+            content:"getLocalImage"
+        }
+        document.getElementById("text").innerHTML = "loading image...";
+        SimpleJsBridge._getLocalImage(content
+                , function (data) {
+                    document.getElementById("img").src = "data:image/jpg;base64,"+data;
+                    document.getElementById("text").innerHTML = "获取本地图片成功";
+                }
+                , function (err) {
+                    document.getElementById("text").innerHTML = "获取本地图片失败:" + err;
+                })
+    }
+
+    function testClick3() {
+        var string = document.getElementById("edit").value;
+        var content = {
+            content:string
+        }
+        document.getElementById("text").innerHTML = "alert...";
+        SimpleJsBridge._alert(content
+                ,function (data) {
+                    document.getElementById("text").innerHTML = "本地弹窗成功:"+data;
+                }
+                ,function (err) {
+                    document.getElementById("text").innerHTML = "本地弹窗失败:"+err;
+                })
+    }
+
+
+
+</script>
+</html>
